@@ -1,69 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guayabita</title>
-    <script src="main.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
+
+    <header class="site-header">
+        <p class="eyebrow-dice" aria-hidden="true">⚀ ⚁ ⚂ ⚃ ⚄ ⚅</p>
         <h1>Guayabita</h1>
-        <p>Bienvenido al juego guayabita!</p>
+        <p class="subtitle">El pote crece, el pote se acaba. Tira el dado y decide: ¿apuestas o guardas?</p>
     </header>
 
     <main>
-        <h2>Instrucciones</h2>
-        <h3>Preparación</h3>
-        <ul>
-            <li>
-                Todos los jugadores aportan una cuota inicial igual (por ejemplo, $1.000 o $2.000 pesos) para formar el pote inicial.
-            </li>
-            <li>
-                Se define el turno de tiro lanzando el dado; quien saque el número más alto empieza.
-            </li>
-        </ul>
-        <h3>Lanzamiento del dado</h3>
-        <ul>
-            <li>
-                En cada turno, el jugador tira un dado. El resultado determina qué acción debe tomar:
-            </li>
-            <li>
-                1 o 6: El jugador pierde el turno y debe poner una cuota adicional al pote (igual a la apuestainicial).
-            </li>
-            <li>
-                2, 3, 4 o 5: Le da derecho al jugador a apostar.
-            </li>
-        </ul>
-        <h3>La dinámica de la apuesta (Tomar o Dejar):</h3>
-        <ul>
-            <li>
-                Si el jugador saca un número entre 2 y 5, tiene la opción de apostar una cantidad del dinero que hay en el pote (desde una fracción hasta la totalidad):
-            </li>
-            <li>
-                Si decide apostar: Vuelve a tirar el dado.
-                <li>
-                    Si saca un número mayor al primer tiro: Se lleva del pote la cantidad de dinero que apostó.
-                </li>
-                <li>
-                    Si saca un número igual o menor al primer tiro: Pierde la apuesta y debe poner en el pote la cantidad de dinero que prometió apostar.
-                </li>
-            </li>
-            <li>
-                Si decide no arriesgar: Pasa el dado al siguiente jugador sin ganar ni perder dinero en ese turno.
-            </li>
-        </ul>
-        <h3>La "Guayabita":</h3>
-        <ul>
-            <li>
-                Cuando un jugador apuesta todo el dinero que hay en el pote y gana el tiro, sedice que "se comió la guayabita" o limpió el pote. Para continuar jugando, todos los participantes deben volver a poner la cuota inicial y comenzar una nueva ronda.
-            </li>
+
+        <section class="card" id="seccion-instrucciones">
+            <details>
+                <summary>Cómo se juega</summary>
+
+                <h3>Preparación</h3>
+                <ul>
+                    <li>Todos los jugadores aportan una cuota inicial igual (por ejemplo, $1.000 o $2.000 pesos) para formar el pote inicial.</li>
+                    <li>Se define el turno de tiro lanzando el dado; quien saque el número más alto empieza.</li>
+                </ul>
+
+                <h3>Lanzamiento del dado</h3>
+                <ul>
+                    <li>En cada turno, el jugador tira un dado. El resultado determina qué acción debe tomar:</li>
+                    <li><strong>1 o 6:</strong> el jugador pierde el turno y debe poner una cuota adicional al pote (igual a la cuota inicial).</li>
+                    <li><strong>2, 3, 4 o 5:</strong> le da derecho al jugador a apostar.</li>
+                </ul>
+
+                <h3>La dinámica de la apuesta (tomar o dejar)</h3>
+                <ul>
+                    <li>Si el jugador saca un número entre 2 y 5, puede apostar una cantidad del dinero que hay en el pote (desde una fracción hasta la totalidad):</li>
+                    <li>Si decide apostar, vuelve a tirar el dado:
+                        <ul>
+                            <li>Si saca un número mayor al primer tiro: se lleva del pote la cantidad que apostó.</li>
+                            <li>Si saca un número igual o menor: pierde la apuesta y debe poner en el pote la cantidad que prometió.</li>
+                        </ul>
+                    </li>
+                    <li>Si decide no arriesgar, pasa el dado al siguiente jugador sin ganar ni perder dinero en ese turno.</li>
+                </ul>
+
+                <h3>La "guayabita"</h3>
+                <ul>
+                    <li>Cuando un jugador apuesta todo el dinero del pote y gana el tiro, se dice que "se comió la guayabita" (limpió el pote). Para continuar, todos vuelven a poner la cuota inicial y empieza una nueva ronda.</li>
+                </ul>
+            </details>
+        </section>
+
+        <section class="card" id="seccion-preparacion">
+            <h2><span class="section-number">1</span> Preparación</h2>
+
+            <div class="form-row">
+                <label for="numeroDeJugadores">Número de jugadores</label>
+                <input type="number" id="numeroDeJugadores" name="numeroDeJugadores" min="2" max="8" value="2">
+            </div>
+
+            <div class="form-row">
+                <label for="cuotaInicial">Cuota inicial (por jugador)</label>
+                <div class="input-money">
+                    <span>$</span>
+                    <input type="number" id="cuotaInicial" name="cuotaInicial" min="0" step="500" value="1000">
+                </div>
+            </div>
+
+            <button id="btnIniciar" class="btn btn-primary" type="button">Iniciar partida</button>
+        </section>
+
+        <section class="card card-table" id="seccion-mesa" hidden>
+            <h2><span class="section-number">2</span> Mesa de juego</h2>
+
+            <div class="marcador">
+                <div class="marcador-item">
+                    <span class="marcador-label">Pote</span>
+                    <span class="marcador-valor" id="pote">$0</span>
+                </div>
+                <div class="marcador-item">
+                    <span class="marcador-label">Turno</span>
+                    <span class="marcador-valor" id="turno">1</span>
+                </div>
+                <div class="marcador-item">
+                    <span class="marcador-label">Le toca a</span>
+                    <span class="marcador-valor" id="jugadorEnTurno">Jugador 1</span>
+                </div>
+            </div>
+
+            <div class="dado-zona">
+                <div class="dado-cara" id="resultadoDado" aria-live="polite">?</div>
+                <button id="btnLanzarDado" class="btn btn-primary" type="button">Lanzar dado</button>
+            </div>
+
+            <!-- Se muestra solo cuando la tirada dio 2, 3, 4 o 5 -->
+            <div class="apuesta-zona" id="zonaApuesta" hidden>
+                <p class="apuesta-pregunta">Sacaste una tirada que permite apostar. ¿Qué haces?</p>
+
+                <div class="form-row">
+                    <label for="montoApuesta">Monto a apostar</label>
+                    <div class="input-money">
+                        <span>$</span>
+                        <input type="number" id="montoApuesta" name="montoApuesta" min="0" step="500" value="0">
+                    </div>
+                </div>
+
+                <div class="apuesta-botones">
+                    <button id="btnApostar" class="btn btn-riesgo" type="button">Apostar</button>
+                    <button id="btnNoApostar" class="btn btn-secundario" type="button">No arriesgar</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="card" id="seccion-saldos" hidden>
+            <h2><span class="section-number">3</span> Saldos</h2>
+            <table class="tabla-saldos">
+                <thead>
+                    <tr>
+                        <th>Jugador</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tbody id="saldosTabla">
+                </tbody>
+            </table>
+        </section>
+
+        <section class="card" id="seccion-bitacora" hidden>
+            <h2><span class="section-number">4</span> Bitácora de la partida</h2>
+            <ul class="bitacora" id="log" aria-live="polite">
+            </ul>
+        </section>
+
     </main>
 
-    <footer>
-
+    <footer class="site-footer">
+        <p>Guayabita &mdash; juego de dados y apuestas.</p>
     </footer>
 
+    <script src="main.js"></script>
 </body>
 </html>
