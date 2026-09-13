@@ -1,76 +1,100 @@
-//1.preparación
+//1.preparación del juego
+let numeroDeJugadores = 0;
+let saldoJugadores = [];
+let cuotaInicial = 0;
+
+let pote = 0;
+let turno = 1; 
+let jugadorEnTurno = 1;
 
 //1.1 cuota inicial
-let cuotaInicial = 0;
-function cuotaInicialTodos(){
-    for (let i=0; i<numeroDeJugadores; i++){
+function cuotaInicialTodos() {
+    for (let i = 0; i < numeroDeJugadores; i++) {
         saldoJugadores[i] = -cuotaInicial;
     }
 }
 
-//1.2 turno
+//1.2  turno 
 
-function calcularJugadorComienza(){
+function calcularJugadorComienza() {
     let tiradaAnterior = 0;
     let jugadorComienza = 0;
     let hayEmpate = false;
     let jugadoresEmpatados = [];
-    for (let i=0; i<numeroDeJugadores; i++){
+    
+    for (let i = 0; i < numeroDeJugadores; i++) {
         let tirada = dado();
         let jugadorActual = i + 1;
-        if (tiradaAnterior < tirada){
+        
+        if (tiradaAnterior < tirada) {
             tiradaAnterior = tirada;
             jugadorComienza = jugadorActual;
             hayEmpate = false;
             jugadoresEmpatados = [jugadorActual];
-        }else if (tiradaAnterior == tirada){
+        } else if (tiradaAnterior == tirada) {
             hayEmpate = true;
             jugadoresEmpatados.push(jugadorActual);
         }
     }
-    if (!hayEmpate){
+    
+    if (!hayEmpate) {
         return jugadorComienza;
-    }else {
+    } else {
         return desempate(jugadoresEmpatados);
     }
 }
 
-function desempate(jugadoresEmpatados){
+function desempate(jugadoresEmpatados) {
     let tiradaAnterior = 0;
     let jugadorComienza = 0;
     let hayEmpate = false;
     let jugadoresEmpatadosAux = [];
-    for (let i=0; i<jugadoresEmpatados.length; i++){
+    
+    for (let i = 0; i < jugadoresEmpatados.length; i++) {
         let tirada = dado();
         let jugadorActual = jugadoresEmpatados[i];
-        if (tiradaAnterior < tirada){
+        
+        if (tiradaAnterior < tirada) {
             tiradaAnterior = tirada;
             jugadorComienza = jugadorActual;
             hayEmpate = false;
             jugadoresEmpatadosAux = [jugadorActual];
-        }else if (tiradaAnterior == tirada){
+        } else if (tiradaAnterior == tirada) {
             hayEmpate = true;
             jugadoresEmpatadosAux.push(jugadorActual);
         }
     }
-    if (!hayEmpate){
+    
+    if (!hayEmpate) {
         return jugadorComienza;
-    }else {
+    } else {
         return desempate(jugadoresEmpatadosAux);
     }
 }
 
-let turno = 1; 
+//inciar la partida
 
-function avanzarTurno(){ //avanza de turno
-    turno++;
-    jugador++;
-    if (jugador > numeroDeJugadores){
-        jugador = 1;
-    }
+function iniciarPartida() {
+    cuotaInicialTodos();
+    pote = cuotaInicial * numeroDeJugadores;
+    turno = 1;
+    jugadorEnTurno = calcularJugadorComienza();
+    
+    console.log("¡El juego comienza! Empieza el jugador: " + jugadorEnTurno);
+    console.log("Pote inicial: " + pote);
+    
+    // A partir de aquí, el HTML tomará el control para llamar a jugarTurno() 
+    // cuando el jugador presione el botón "Lanzar Dado".
 }
 
-let jugador = calcularJugadorComienza(); //calculamos el número de jugador que comienza el juego
+function avanzarTurno() { 
+    turno++;
+    jugadorEnTurno++;
+    
+    if (jugadorEnTurno > numeroDeJugadores) {
+        jugadorEnTurno = 1;
+    }
+}
 
 //2.Lanzamiento del dado
 
@@ -78,18 +102,59 @@ function dado(){
     return Math.ceil(Math.random() * 6) // Numero entre 0 y 1 pero yo quiero son los de un dado, o sea, 1 a 6.
 }
 
-function apostando(){
-    let apuesta = 0;
-
-    
-}
-
-
-
-
-
 //2.1 saldos
 
-function cuotaInicialIndividual(jugador){
-   saldoJugadores[jugador-1] -= cuotaInicial;
+function cuotaInicialIndividual() {
+    saldoJugadores[jugadorEnTurno - 1] -= cuotaInicial;
+    pote += cuotaInicial; 
 }
+
+//3 La dinámica de la apuesta (Tomar o Dejar)
+function apostando(apuesta, tiradaPrevia) {
+    let nuevaTirada = dado();
+    
+    if (nuevaTirada > tiradaPrevia) {
+        saldoJugadores[jugadorEnTurno - 1] += apuesta;
+        pote -= apuesta;
+    } else {
+        console.log("¡Perdió la apuesta!");
+        saldoJugadores[jugadorEnTurno - 1] -= apuesta;
+        pote += apuesta;
+    }
+
+    // NUEVO: Validación segura de fin de juego (menor o igual a cero por seguridad)
+    if (pote <= 0) {
+        console.log("¡El jugador " + jugadorEnTurno + " se comió la guayabita (vació el pote)!");
+        console.log("FIN DEL JUEGO. Saldos finales:", saldoJugadores);
+        
+        // Aquí podrías reiniciar variables o mostrar un mensaje en el HTML
+    } else {
+        avanzarTurno();
+    }
+}
+
+//3.1 Jugar el turno o pasar
+function jugarTurno() {
+    let tirada = dado();
+    
+    if (tirada === 1 || tirada === 6) {
+        cuotaInicialIndividual();
+        avanzarTurno();
+    } else {
+        let deseaApostar = false;
+        let apuesta = 0; 
+        
+        if (deseaApostar) {
+            if (apuesta > pote) {
+                apuesta = pote; 
+            }
+            apostando(apuesta, tirada);
+        } else {
+            avanzarTurno();
+        }
+    }
+}
+
+
+
+
