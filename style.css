@@ -57,7 +57,7 @@ body {
 }
 
 main {
-    max-width: 40rem;
+    max-width: 55rem;
     margin: 0 auto;
     padding: 0 1.25rem 4rem;
     display: flex;
@@ -353,6 +353,24 @@ details li {
     color: var(--crema-suave);
     font-size: 0.85rem;
     padding: 1rem 0 2.5rem;
+}
+
+.contenedor-doble {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.contenedor-doble .card {
+    flex: 1; 
+    margin-bottom: 0; 
+}
+
+@media (max-width: 768px) {
+    .contenedor-doble {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 420px) {

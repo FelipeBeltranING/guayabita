@@ -81,10 +81,12 @@
                     <span class="marcador-label">Pote</span>
                     <span class="marcador-valor" id="pote">$0</span>
                 </div>
+
                 <div class="marcador-item">
                     <span class="marcador-label">Turno</span>
                     <span class="marcador-valor" id="turno">1</span>
                 </div>
+
                 <div class="marcador-item">
                     <span class="marcador-label">Le toca a</span>
                     <span class="marcador-valor" id="jugadorEnTurno">Jugador 1</span>
@@ -96,12 +98,12 @@
                 <button id="btnLanzarDado" class="btn btn-primary" type="button">Lanzar dado</button>
             </div>
 
-            <!-- Se muestra solo cuando la tirada dio 2, 3, 4 o 5 -->
             <div class="apuesta-zona" id="zonaApuesta" hidden>
                 <p class="apuesta-pregunta">Sacaste una tirada que permite apostar. ¿Qué haces?</p>
 
                 <div class="form-row">
                     <label for="montoApuesta">Monto a apostar</label>
+
                     <div class="input-money">
                         <span>$</span>
                         <input type="number" id="montoApuesta" name="montoApuesta" min="0" step="500" value="0">
@@ -115,24 +117,40 @@
             </div>
         </section>
 
-        <section class="card" id="seccion-saldos" hidden>
-            <h2><span class="section-number">3</span> Saldos</h2>
-            <table class="tabla-saldos">
-                <thead>
-                    <tr>
-                        <th>Jugador</th>
-                        <th>Saldo</th>
-                    </tr>
-                </thead>
-                <tbody id="saldosTabla">
-                </tbody>
-            </table>
-        </section>
+        <div class="contenedor-doble">
 
-        <section class="card" id="seccion-bitacora" hidden>
-            <h2><span class="section-number">4</span> Bitácora de la partida</h2>
-            <ul class="bitacora" id="log" aria-live="polite">
-            </ul>
+            <section class="card" id="seccion-saldos" hidden>
+                <h2><span class="section-number">3</span> Saldos</h2>
+
+                <table class="tabla-saldos">
+                    <thead>
+                        <tr>
+                            <th>Jugador</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="saldosTabla">
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="card" id="seccion-bitacora" hidden>
+                <h2><span class="section-number">4</span> Bitácora de la partida</h2>
+
+                <ul class="bitacora" id="log" aria-live="polite">
+                </ul>
+            </section>
+
+        </div>
+
+        <section class="card final-partida" id="seccion-final" hidden>
+            <h2 id="mensajeFinal">¡Fin de la partida!</h2>
+            <p id="detalleFinal"></p>
+
+            <button id="btnVolverJugar" class="btn btn-primary" type="button">
+                Volver a jugar
+            </button>
         </section>
 
     </main>
